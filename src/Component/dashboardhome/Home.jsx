@@ -97,11 +97,11 @@ class DashboardHome extends React.Component {
     
     {loading ? (
               // Render a loading message if data is not yet available
-              <h2>Loading...</h2>
+              <h4>Loading...</h4>
             ) : data ? (
               // Render the data if available
               <div>
-                <h2>Data:</h2>
+                <h4>Data:</h4>
                 <pre>{JSON.stringify(data, null, 2)}</pre>
               </div>
             ) : (
