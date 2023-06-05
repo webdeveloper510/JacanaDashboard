@@ -47,13 +47,13 @@ h6,
 # Header
 --------------------------------------------------------------*/
 #header {
-  position: fixed;
+  position: absolute;
   left: 0;
   right: 0;
   transition: all 0.5s;
   z-index: 9999999;
   transition: all 0.5s;
-  background: #0A647A;
+  background: rgb(10 100 122 / 48%);
   padding-top: 10px;
     padding-bottom: 10px;
   /* border-bottom: 1px solid rgb(217, 224, 232); */
@@ -577,10 +577,10 @@ p.copyright-text {
 
 .dashboard-top-section {
   background: #0A647A;
-  padding: 150px 0px;
-  margin-top: 55px;
+  padding: 200px 0px 150px;
   float: left;
   width: 100%;
+  background-image: url(../img/home/bg3.jpg) !important;
 }
 .dashboard-top-section .container {
   position: relative;
@@ -596,4 +596,17 @@ img.dashbaord-userimage {
   font-size: 50px;
   color: #fff;
   font-weight: 600;
+}
+.dashboard-second-section{
+  padding: 50px 0px 50px;
+  float: left;
+  width: 100%;
+}
+.dashboard-third-section{
+  padding: 50px 0px 50px;
+  float: left;
+  width: 100%;
+}
+.dashboard-second-section h3 {
+  margin: 0;
 }

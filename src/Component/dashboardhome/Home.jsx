@@ -60,15 +60,38 @@ class DashboardHome extends React.Component {
      <h1>UserDashboard</h1>
 
 
-     <img src={dashboarduser} className="dashbaord-userimage" alt="dashboard-user"/>
+     {/* <img src={dashboarduser} className="dashbaord-userimage" alt="dashboard-user"/> */}
      
       </div>
       </div>
   </div>
   
+  <div className="dashboard-second-section">
+  <div className="container">
+    <div className="row justify-content-around">
+    
+    <div className="col-md-2">
+    <h3>PRODUCTS</h3>
+    </div>
+    <div className="col-md-2">
+    <h3>WARRANTY</h3>
+    </div>
+    <div className="col-md-2">
+    <h3>SUBSCRIPTION</h3>
+    </div>
+    <div className="col-md-2">
+    <h3>FILE CLAIM</h3>
+    </div>
+    <div className="col-md-2">
+    <h3>STATUS</h3>
+    </div>
+     
+      </div>
+      </div>
+  </div>
  
   
-<div className="dashboard-second-section">
+<div className="dashboard-third-section">
   <div className="container">
     <div className="row">
     
