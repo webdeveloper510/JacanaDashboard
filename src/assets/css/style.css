@@ -656,3 +656,18 @@ img.dashbaord-userimage {
     padding: 15px;
     border-radius: 14px;
 }
+
+#loftloaderwrappernew {
+  position: fixed;
+  height: 100%;
+  text-align: center;
+  top: 0;
+  z-index: 9999999999;
+  width: 100%;
+  display: block;
+  background: url('../img/home/bird.gif') rgba(10, 100, 122, 0.7);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-size: 250px;
+}
