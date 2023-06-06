@@ -2,6 +2,12 @@ import React from "react";
 import 'react-multi-carousel/lib/styles.css';
 import Blogs from "../blogs/Blogs";
 import dashboarduser from "../../assets/img/home/dashboard-top.png";
+import product from "../../assets/img/home/product.png";
+import warranty from "../../assets/img/home/quality.png";
+import subscription from "../../assets/img/home/subscription.png";
+import claim from "../../assets/img/home/claim.png";
+import status from "../../assets/img/home/status.png";
+
 
 class DashboardHome extends React.Component {
   constructor(props) {
@@ -70,20 +76,25 @@ class DashboardHome extends React.Component {
   <div className="container">
     <div className="row justify-content-around">
     
-    <div className="col-md-2">
+    <div className="col-md-2 each-box-image">
     <h3>PRODUCTS</h3>
+    <img src={product} alt="product"/>
     </div>
-    <div className="col-md-2">
+    <div className="col-md-2 each-box-image">
     <h3>WARRANTY</h3>
+    <img src={warranty} alt="warranty"/>
     </div>
-    <div className="col-md-2">
+    <div className="col-md-2 each-box-image">
     <h3>SUBSCRIPTION</h3>
+    <img src={subscription} alt="subscription"/>
     </div>
-    <div className="col-md-2">
+    <div className="col-md-2 each-box-image">
     <h3>FILE CLAIM</h3>
+    <img src={claim} alt="claim"/>
     </div>
-    <div className="col-md-2">
+    <div className="col-md-2 each-box-image">
     <h3>STATUS</h3>
+    <img src={status} alt="status"/>
     </div>
      
       </div>
@@ -106,7 +117,7 @@ class DashboardHome extends React.Component {
               </div>
             ) : (
               // Render an error message if data is not available
-              <h2>Error: Failed to fetch data</h2>
+              <h4>Error: Failed to fetch data</h4>
             )}
       </div>
       </div>

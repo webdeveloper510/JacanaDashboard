@@ -581,6 +581,8 @@ p.copyright-text {
   float: left;
   width: 100%;
   background-image: url(../img/home/bg3.jpg) !important;
+  z-index: 1;
+  position: relative;
 }
 .dashboard-top-section .container {
   position: relative;
@@ -596,11 +598,32 @@ img.dashbaord-userimage {
   font-size: 50px;
   color: #fff;
   font-weight: 600;
+  position: relative;
 }
-.dashboard-second-section{
-  padding: 50px 0px 50px;
+.dashboard-top-section h1:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 66px;
+  height: 63px;
+  z-index: 1;
+  transition: all ease .3s;
+  background-color: #f4f4f4;
+  text-align: center;
+  margin: 0 auto;
+  left: 0;
+  top: -24px;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  z-index: -1;
+  background-color: #0ea0c3;
+}
+
+.dashboard-second-section {
+  padding: 50px 0px;
   float: left;
   width: 100%;
+  background: #F7F8FC;
 }
 .dashboard-third-section{
   padding: 50px 0px 50px;
@@ -609,4 +632,27 @@ img.dashbaord-userimage {
 }
 .dashboard-second-section h3 {
   margin: 0;
+  text-align: center;
+  font-size: 23px;
+}
+.each-box-image {
+  text-align: center;
+}
+.each-box-image:hover {
+  background: #0EA0C3;
+}
+.each-box-image:hover h3 {
+  color: #fff;
+}
+.each-box-image img {
+  width: 100px;
+  margin-top: 29px;
+}
+.each-box-image {
+  text-align:center;
+  background:#fff;
+  box-shadow: 0 0.813rem 1.313rem rgba(0,0,0,.05);
+    border: 1px solid #f4f4f4;
+    padding: 15px;
+    border-radius: 14px;
 }
