@@ -47,7 +47,7 @@ const DashboardHeader =() => {
                       <NavLink to="/faq"> FAQ's</NavLink>
                       </li>
                       <li>
-                      <NavLink to="/blog"> Blog</NavLink>
+                      <NavLink to="https://www.jacanawarranty.com/blog/"> Blog</NavLink>
                       </li>
                   </ul>
                 
@@ -84,7 +84,7 @@ const DashboardHeader =() => {
                       <NavLink to="/faq"> FAQ's</NavLink>
                       </li>
                       <li>
-                      <NavLink to="/blog"> Blog</NavLink>
+                      <NavLink to="https://www.jacanawarranty.com/blog/"> Blog</NavLink>
                       </li>
                   </ul>
                 

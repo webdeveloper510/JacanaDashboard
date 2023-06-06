@@ -45,6 +45,10 @@ function DashboardHome() {
 
   // Rest of your component code
 
-  return <div id="loftloaderwrappernew">Loading...</div>; // Render the loader while loading
+  return (
+    <>
+    <div id="loftloaderwrappernew"></div>
+    </>
+  )
 }
 export default DashboardHome;
