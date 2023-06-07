@@ -1,54 +1,67 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'react-multi-carousel/lib/styles.css';
 
 function DashboardHome() {
+
+  const [userId, setUserId] = useState(null); // Initialize userId state
   const navigate = useNavigate();
 
   useEffect(() => {
-    // User ID
-    const userId = '4lQofg';
+    // Extract the user ID from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const userIdParam = urlParams.get('user_id');
 
-    console.log(userId);
+    if (userIdParam) {
+      setUserId(userIdParam);
 
-    // Construct the URL with the user ID
-    const url = `https://jacanawarranty.com/wp-json/gform/v2/user_authentication/?user_id=${userId}`;
+      // Make the API request with the user ID from the URL
+      const url = `https://jacanawarranty.com/wp-json/gform/v2/user_authentication/?user_id=${userIdParam}`;
+      const token = 'Bearer xuE0sEGHV9UZ8mbpvgJkJXorO';
 
-    // Make the API request
-    fetch(url, {
-      headers: {
-        Authorization: 'Bearer xuE0sEGHV9UZ8mbpvgJkJXorO' // Provide the token in the Authorization header
-      }
-    })
-    .then(response => {
-      console.log(response.ok); // Add this line to check the value of response.ok
-
-      if (!response.ok) {
-        window.location.href = 'https://www.jacanawarranty.com/';
-      } else {
-        const componentPath = '/user_dashboard'; // Set the desired component path
-        navigate(componentPath);
-
-        // Remove the user ID from the URL
-        window.history.replaceState(null, null, componentPath);
-      }
-      return response.json();
-    })
-      .finally(() => {
-        // Set loading state to false when the request is completed
-        // this.setState({ loading: false }); // You may not need this line anymore
-      });
-
-    // Update the URL with the user ID
-    window.history.replaceState(null, null, `/user_id=${userId}`);
+      fetch(url, {
+        headers: {
+          Authorization: token,
+        },
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch user ID');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.valid) {
+            // Redirect to the user_dashboard component
+            navigate('/user_dashboard');
+          } else {
+            // Redirect to https://www.jacanawarranty.com/
+            window.location.href = 'https://www.jacanawarranty.com/';
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } else {
+      // Redirect to https://www.jacanawarranty.com/ if user ID is not provided in the URL
+      window.location.href = 'https://www.jacanawarranty.com/';
+    }
   }, [navigate]);
 
-  // Rest of your component code
 
+  // Render the component with the fetched data
   return (
     <>
-    <div id="loftloaderwrappernew"></div>
+
+{/* <div>
+      <h1>User ID: {userId}</h1>
+
+    </div> */}
+
+
+<div id="loftloaderwrappernew">Loading...</div>
     </>
-  )
+  );
 }
+
 export default DashboardHome;

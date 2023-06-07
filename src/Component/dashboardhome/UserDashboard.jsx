@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import 'react-multi-carousel/lib/styles.css';
 import product from "../../assets/img/home/product.png";
 import warranty from "../../assets/img/home/quality.png";
@@ -7,9 +7,35 @@ import claim from "../../assets/img/home/claim.png";
 import status from "../../assets/img/home/status.png";
 
 
-class UserDashboard extends React.Component {
+    function UserDashboard() {
+ 
+      const [userData, setUserData] = useState(null); // Initialize userData state
 
-  render() {
+      useEffect(() => {
+        const token = 'xuE0sEGHV9UZ8mbpvgJkJXorO'; // Token value
+    
+        // Fetch the data from the API
+        fetch('https://jacanawarranty.com/wp-json/gform/v2/user_dashboard', {
+          headers: {
+            Authorization: `Bearer ${token}` // Include the token in the Authorization header
+          }
+        })
+          .then(response => {
+            console.log(response);
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            setUserData(data); // Store the response data in the userData state
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            // Handle the error condition if needed
+          });
+      }, []);
+
 
       return(
           <>
@@ -56,12 +82,20 @@ class UserDashboard extends React.Component {
       </div>
   </div>
  
-
+  {userData && (
+        <div>
+          <p>Email: {userData.data.email}</p>
+          <p>User Token: {userData.data.user_token}</p>
+          <p>Status: {userData.data.status}</p>
+          <p>Page: {userData.data.page}</p>
+          <p>Page Size: {userData.data.page_size}</p>
+        </div>
+      )}
   
       </>
       )
   }
-  }
+  
 
 export default UserDashboard;
 
