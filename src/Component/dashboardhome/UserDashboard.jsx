@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import 'react-multi-carousel/lib/styles.css';
 import product from "../../assets/img/home/product.png";
 import warranty from "../../assets/img/home/quality.png";
@@ -9,7 +11,30 @@ import status from "../../assets/img/home/status.png";
 
     function UserDashboard() {
  
+      const [users, setUsers] = useState([])
+
+
+      const url = `https://jacanawarranty.com/wp-json/gform/v2/user_dashboard`;
+      const token = 'Bearer xuE0sEGHV9UZ8mbpvgJkJXorO';
     
+      
+      const fetchUserData = () => {
+        fetch(url, {
+          headers: {
+            Authorization: token,
+          },
+        })
+          .then(response => {
+            return response.json()
+          })
+          .then(data => {
+            setUsers(data)
+          })
+      }
+    
+      useEffect(() => {
+        fetchUserData()
+      }, [])
 
       return(
           <>
@@ -26,6 +51,19 @@ import status from "../../assets/img/home/status.png";
       </div>
       </div>
   </div>
+
+
+
+  <div>
+      {users.length > 0 && (
+        <ul>
+          {users.map(data => (
+            <li key={data.id}>{data.name}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+
   
   <div className="dashboard-second-section">
   <div className="container">
