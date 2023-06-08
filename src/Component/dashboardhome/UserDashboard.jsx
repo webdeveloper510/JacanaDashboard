@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect , useState} from 'react';
 import Cookies from 'js-cookie';
+import { useLocation } from 'react-router-dom';
+
 import 'react-multi-carousel/lib/styles.css';
 import product from "../../assets/img/home/product.png";
 import warranty from "../../assets/img/home/quality.png";
@@ -10,31 +11,59 @@ import status from "../../assets/img/home/status.png";
 
 
     function UserDashboard() {
- 
-      const [users, setUsers] = useState([])
 
+      //const [data, setData] = useState(null);
+      const [apiData, setApiData] = useState(null);
+      //const location = useLocation();
+     useEffect(() => {
+    const email = Cookies.get('email');
+    const userToken = Cookies.get('user_token');
+    const roles = Cookies.get('roles');
 
-      const url = `https://jacanawarranty.com/wp-json/gform/v2/user_dashboard`;
+    console.log('Email:', email);
+    console.log('User Token:', userToken);
+    console.log('Roles:', roles);
+
+    if (!email || !userToken || !roles) {
+      // Redirect to the homepage or any other appropriate page
+      window.location.href = 'https://www.jacanawarranty.com/';
+    } else {
+      const apiUrl = 'https://jacanawarranty.com/wp-json/gform/v2/user_dashboard';
       const token = 'Bearer xuE0sEGHV9UZ8mbpvgJkJXorO';
-    
-      
-      const fetchUserData = () => {
-        fetch(url, {
-          headers: {
-            Authorization: token,
-          },
+
+      const queryParams = new URLSearchParams({
+        email: email,
+        user_token: userToken,
+        status: 'Active', // Provide the desired status value if applicable
+        page: 1, // Provide the desired page number if applicable
+        page_size: 10, // Provide the desired page size if applicable
+      });
+
+      const url = `${apiUrl}?${queryParams.toString()}`;
+
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: token,
+          // Include any other required headers
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch API data');
+          }
+          return response.json();
         })
-          .then(response => {
-            return response.json()
-          })
-          .then(data => {
-            setUsers(data)
-          })
-      }
+        .then((data) => {
+          // Store the API data in state
+          setApiData(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, []);
     
-      useEffect(() => {
-        fetchUserData()
-      }, [])
 
       return(
           <>
@@ -52,18 +81,16 @@ import status from "../../assets/img/home/status.png";
       </div>
   </div>
 
-
-
   <div>
-      {users.length > 0 && (
-        <ul>
-          {users.map(data => (
-            <li key={data.id}>{data.name}</li>
-          ))}
-        </ul>
-      )}
-    </div>
-
+    {apiData ? (
+      <div>
+        <h2>API Response Data</h2>
+        <pre>{JSON.stringify(apiData, null, 2)}</pre>
+      </div>
+    ) : (
+      <p>Loading API data...</p>
+    )}
+  </div>
   
   <div className="dashboard-second-section">
   <div className="container">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import 'react-multi-carousel/lib/styles.css';
@@ -8,6 +8,8 @@ function DashboardHome() {
   const urlParams = new URLSearchParams(window.location.search);
   //console.log('URL params:', urlParams.toString());
   const userIdParam = urlParams.get('user_id');
+  const [userRole, setUserRole] = useState(null);
+
 
   useEffect(() => {
     if (userIdParam) {
@@ -27,26 +29,35 @@ function DashboardHome() {
           return response.json();
         })
         .then((data) => {
-          if (data && data.valid) {
-            // Redirect to https://www.jacanawarranty.com/
-            window.location.href = 'https://www.jacanawarranty.com/';
+          const userRole= data.data.roles;
+        
+          if (data && data.valid && userRole === 'customer') {
+            window.location.href = 'https://www.jacanawarranty.com/'; 
           } else {
-             // Save the API data in a cookie
-             Cookies.set('apiData', JSON.stringify(data));
 
-            // Log the cookies
-            console.log('Cookies:', Cookies.get());
+             // Save email and user_token in cookies
+            Cookies.set('email', data.data.email);
+            Cookies.set('roles', data.data.roles);
+            Cookies.set('user_token', data.data.user_token);
+           Cookies.set('apiData', JSON.stringify(data)); // Store API data in cookies
+
+            //console.log('cookie email:', Cookies.get('email'));
+           // console.log('cookie roles:', Cookies.get('roles'));
+           // console.log('cookie user token:', Cookies.get('user_token'));
             
-            // Redirect to the user_dashboard component
+            //console.log('User Token cookie:', Cookies.get('user_token'));
+           // console.log('Cookies:', Cookies.get());
+           // console.log('Data:', data);
+            //console.log('Role:', userRole);
+        
             const componentPath = '/user_dashboard'; // Set the desired component path
             navigate(componentPath);
-            // Remove the user ID from the URL
             window.history.replaceState(null, null, componentPath);
           }
         })
     } else {
       // Redirect to https://www.jacanawarranty.com/ if user ID is not provided in the URL
-      window.location.href = 'https://www.jacanawarranty.com/';
+      // window.location.href = 'https://www.jacanawarranty.com/';
     }
   }, [userIdParam, navigate]);
 
