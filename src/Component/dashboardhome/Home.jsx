@@ -26,7 +26,7 @@ function Home() {
         .then((response) => {
           if (!response.ok) {
             window.location.href = 'https://www.jacanawarranty.com/';
-            throw new Error('Failed to fetch user ID');
+           throw new Error('Failed to fetch user ID');
           }
           return response.json();
         })
@@ -59,7 +59,7 @@ function Home() {
   return (
     <>
 
-<div id="loftloaderwrappernew">Loading...</div>
+<div id="loftloaderwrappernew"></div>
     </>
   );
 }

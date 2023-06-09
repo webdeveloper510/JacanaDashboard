@@ -11,61 +11,58 @@ import status from "../../assets/img/home/status.png";
 
 
     function UserDashboard() {
+      const [loading, setLoading] = useState(true);
       const [apiData, setApiData] = useState({ data: [] });
-
-     useEffect(() => {
-    const email = Cookies.get('email');
-    const userToken = Cookies.get('user_token');
-    const roles = Cookies.get('roles');
-  
-    console.log('Email:', email);
-    console.log('User Token:', userToken);
-    console.log('Roles:', roles);
-
-    if (!email || !userToken || !roles) {
-      // Redirect to the homepage or any other appropriate page
-    window.location.href = 'https://www.jacanawarranty.com/';
-    } else {
-      const apiUrl = 'https://jacanawarranty.com/wp-json/gform/v2/user_dashboard';
-      const token = 'Bearer xuE0sEGHV9UZ8mbpvgJkJXorO';
-
-      const queryParams = new URLSearchParams({
-        email: email,
-        user_token: userToken,
-        status: 'Active', // Provide the desired status value if applicable
-        // page: 1, // Provide the desired page number if applicable
-        // page_size: 10, // Provide the desired page size if applicable
-      });
-
-      const url = `${apiUrl}?${queryParams.toString()}`;
-
-      fetch(url, {
-        method: 'GET',
-        headers: {
-          Authorization: token,
-          // Include any other required headers
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Failed to fetch API data');
-          }
-          return response.json();
-        })
-        .then((data) => {
-          // Assuming data is an object with a 'data' property that holds the array
-          const responseData = data.data.data;
-
-        setApiData({ data: responseData });
-          console.log(responseData);
-  
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }, []);
-
+      
+      useEffect(() => {
+        const email = Cookies.get('email');
+        const userToken = Cookies.get('user_token');
+        const roles = Cookies.get('roles');
+      
+        console.log('Email:', email);
+        console.log('User Token:', userToken);
+        console.log('Roles:', roles);
+      
+        if (!email || !userToken || !roles || email === 'undefined' || userToken === 'undefined' || roles === 'undefined') {
+          // Redirect to the homepage or any other appropriate page
+          setTimeout(() => {
+            window.location.href = 'https://www.jacanawarranty.com/';
+          }, 3000); // Delay of 3000 milliseconds (3 seconds)
+        } else {
+          const apiUrl = 'https://jacanawarranty.com/wp-json/gform/v2/user_dashboard';
+          const token = 'Bearer xuE0sEGHV9UZ8mbpvgJkJXorO';
+      
+          const queryParams = new URLSearchParams({
+            email: email,
+            user_token: userToken,
+            status: 'Active',
+          });
+      
+          const url = `${apiUrl}?${queryParams.toString()}`;
+      
+          fetch(url, {
+            method: 'GET',
+            headers: {
+              Authorization: token,
+            },
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error('Failed to fetch API data');
+              }
+              return response.json();
+            })
+            .then((data) => {
+              const responseData = data.data.data;
+              setApiData({ data: responseData });
+              setLoading(false); // Set loading to false once API data is fetched
+              console.log(responseData);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        }
+      }, []);
 
 
       return(
@@ -118,44 +115,48 @@ import status from "../../assets/img/home/status.png";
   <div className="dashboard-third-section">
   <div className="container">
   <div className="row justify-content-around">
-  <table>
-      <thead>
-        <tr>
-          <th>Product Name</th>
-          <th>Order ID</th>
-          <th>Term</th>
-          <th>Renewal Date</th>
-          <th>ID</th>
-          <th>Payment Status</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-  {apiData.data.length > 0 ? (
-    apiData.data.map((item, index) => (
-      <tr key={index}>
-        <td>{item.product_name}</td>
-        <td>{item.order_id}</td>
-        <td>{item.term}</td>
-        <td>{item.renewal_date}</td>
-        <td>{item.id}</td>
-        <td>{item.payment_status}</td>
-        <td>{item.button}</td>
-      </tr>
-    ))
-  ) : (
-    <tr>
-      <td colSpan="7">Loading User Details...</td>
-    </tr>
-  )}
-</tbody>
-      </table>
+  <div>
+      {loading ? (
+        // Show the loader while loading is true
+        <div id="loftloaderwrappernew-inner">
+          {/* Your loader content here */}
+        </div>
+      ) : (
+        // Once loading is false, display the API data
+        <table>
+          <thead>
+            <tr>
+              <th>Product Name</th>
+              <th>Order ID</th>
+              <th>Term</th>
+              <th>Renewal Date</th>
+              <th>ID</th>
+              <th>Payment Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {apiData.data.map((item, index) => (
+              <tr key={index}>
+                <td>{item.product_name}</td>
+                <td>{item.order_id}</td>
+                <td>{item.term}</td>
+                <td>{item.renewal_date}</td>
+                <td>{item.id}</td>
+                <td>{item.payment_status}</td>
+                <td>{item.button}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
 
   </div>
   </div>
   </div>
 
-  
+
       </>
       )
   }
