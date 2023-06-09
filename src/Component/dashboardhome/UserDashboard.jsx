@@ -11,22 +11,20 @@ import status from "../../assets/img/home/status.png";
 
 
     function UserDashboard() {
-
-      //const [data, setData] = useState(null);
       const [apiData, setApiData] = useState(null);
-      //const location = useLocation();
+
      useEffect(() => {
     const email = Cookies.get('email');
     const userToken = Cookies.get('user_token');
     const roles = Cookies.get('roles');
-
+  
     console.log('Email:', email);
     console.log('User Token:', userToken);
     console.log('Roles:', roles);
 
     if (!email || !userToken || !roles) {
       // Redirect to the homepage or any other appropriate page
-      window.location.href = 'https://www.jacanawarranty.com/';
+    window.location.href = 'https://www.jacanawarranty.com/';
     } else {
       const apiUrl = 'https://jacanawarranty.com/wp-json/gform/v2/user_dashboard';
       const token = 'Bearer xuE0sEGHV9UZ8mbpvgJkJXorO';

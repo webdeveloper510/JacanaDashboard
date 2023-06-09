@@ -1,17 +1,12 @@
-import {HashRouter as Router, Route, Routes} from 'react-router-dom';
+import {Router, Route, Routes} from 'react-router-dom';
 import Home from '../Component/dashboardhome/Home';
 import Header from '../Component/dashboardheader/Header';
 import Footer from '../Component/dashboardfooter/Footer';
 import UserDashboard from '../Component/dashboardhome/UserDashboard';
 const Routerpage =()=>{
-
-  
   return(
   <>
-
-  
-
-    <Router>  
+ 
 
     <>
   
@@ -27,7 +22,6 @@ const Routerpage =()=>{
     </>
 
    
-    </Router>
      
    </>
     

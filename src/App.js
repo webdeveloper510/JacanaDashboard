@@ -4,9 +4,9 @@ const App =()=>{
  
   return(
     <>
-  
-     < Routerpage autoclose={3000} />
-   
+  <div className='App'>
+     < Routerpage />
+     </div>
     </>
   )
 }
