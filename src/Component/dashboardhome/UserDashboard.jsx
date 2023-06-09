@@ -1,7 +1,7 @@
 import React, { useEffect , useState} from 'react';
 import Cookies from 'js-cookie';
 import { useLocation } from 'react-router-dom';
-
+import TableComponent from "../dashboardhome/UserDashboardTable";
 import 'react-multi-carousel/lib/styles.css';
 import product from "../../assets/img/home/product.png";
 import warranty from "../../assets/img/home/quality.png";
@@ -11,7 +11,7 @@ import status from "../../assets/img/home/status.png";
 
 
     function UserDashboard() {
-      const [apiData, setApiData] = useState(null);
+      const [apiData, setApiData] = useState({ data: [] });
 
      useEffect(() => {
     const email = Cookies.get('email');
@@ -33,8 +33,8 @@ import status from "../../assets/img/home/status.png";
         email: email,
         user_token: userToken,
         status: 'Active', // Provide the desired status value if applicable
-        page: 1, // Provide the desired page number if applicable
-        page_size: 10, // Provide the desired page size if applicable
+        // page: 1, // Provide the desired page number if applicable
+        // page_size: 10, // Provide the desired page size if applicable
       });
 
       const url = `${apiUrl}?${queryParams.toString()}`;
@@ -53,15 +53,20 @@ import status from "../../assets/img/home/status.png";
           return response.json();
         })
         .then((data) => {
-          // Store the API data in state
-          setApiData(data);
+          // Assuming data is an object with a 'data' property that holds the array
+          const responseData = data.data.data;
+
+        setApiData({ data: responseData });
+          console.log(responseData);
+  
         })
         .catch((error) => {
           console.error(error);
         });
     }
   }, []);
-    
+
+
 
       return(
           <>
@@ -79,16 +84,6 @@ import status from "../../assets/img/home/status.png";
       </div>
   </div>
 
-  <div>
-    {apiData ? (
-      <div>
-        <h2>API Response Data</h2>
-        <pre>{JSON.stringify(apiData, null, 2)}</pre>
-      </div>
-    ) : (
-      <p>Loading API data...</p>
-    )}
-  </div>
   
   <div className="dashboard-second-section">
   <div className="container">
@@ -118,7 +113,47 @@ import status from "../../assets/img/home/status.png";
       </div>
       </div>
   </div>
- 
+
+
+  <div className="dashboard-third-section">
+  <div className="container">
+  <div className="row justify-content-around">
+  <table>
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Order ID</th>
+          <th>Term</th>
+          <th>Renewal Date</th>
+          <th>ID</th>
+          <th>Payment Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+  {apiData.data.length > 0 ? (
+    apiData.data.map((item, index) => (
+      <tr key={index}>
+        <td>{item.product_name}</td>
+        <td>{item.order_id}</td>
+        <td>{item.term}</td>
+        <td>{item.renewal_date}</td>
+        <td>{item.id}</td>
+        <td>{item.payment_status}</td>
+        <td>{item.button}</td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan="7">Loading User Details...</td>
+    </tr>
+  )}
+</tbody>
+      </table>
+
+  </div>
+  </div>
+  </div>
 
   
       </>
