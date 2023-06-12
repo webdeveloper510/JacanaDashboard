@@ -54,6 +54,7 @@ h6,
   z-index: 9999999;
   transition: all 0.5s;
   background: rgb(10 100 122 / 48%);
+  /* background:  rgb(20 73 87 / 70%); */
   padding-top: 10px;
     padding-bottom: 10px;
   /* border-bottom: 1px solid rgb(217, 224, 232); */
@@ -143,11 +144,13 @@ h6,
 .navbar .active,
 .navbar .active:focus,
 .navbar li:hover>a {
-  color: #0ea0c3;
+  /* color: #0ea0c3; */
+  color:#29d4fd;
+  
   /*border-bottom: 1px solid #6414E9; */
 }
 nav#navbar ul li a.active:after , nav#navbar ul li a:hover:after, nav#navbar ul li a:focus:after{
-  border: 1px solid #0ea0c3;
+  border: 1px solid #29d4fd;
   position: absolute;
   content: "";
   bottom: -5px;
@@ -703,4 +706,11 @@ th {
 
 tr:nth-child(even) {
   background-color: #f2f2f2;
+}
+
+.no-found-section{
+background: #0C5D70;
+}
+.no-found-section p {
+  color: #fff;
 }

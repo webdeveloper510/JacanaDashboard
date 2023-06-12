@@ -8,7 +8,7 @@ import claim from "../../assets/img/home/claim.png";
 import status from "../../assets/img/home/status.png";
 
 
-    function UserDashboard() {
+    function SavedCard() {
       const [loading, setLoading] = useState(true);
       const [apiData, setApiData] = useState({ data: [] });
       
@@ -27,38 +27,7 @@ import status from "../../assets/img/home/status.png";
             window.location.href = 'https://www.jacanawarranty.com/';
           }, 2000); // Delay of 3000 milliseconds (3 seconds)
         } else {
-          const apiUrl = 'https://jacanawarranty.com/wp-json/gform/v2/user_dashboard';
-          const token = 'Bearer xuE0sEGHV9UZ8mbpvgJkJXorO';
-      
-          const queryParams = new URLSearchParams({
-            email: email,
-            user_token: userToken,
-            status: 'Active',
-          });
-      
-          const url = `${apiUrl}?${queryParams.toString()}`;
-      
-          fetch(url, {
-            method: 'GET',
-            headers: {
-              Authorization: token,
-            },
-          })
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error('Failed to fetch API data');
-              }
-              return response.json();
-            })
-            .then((data) => {
-              const responseData = data.data.data;
-              setApiData({ data: responseData });
-              setLoading(false); // Set loading to false once API data is fetched
-              console.log(responseData);
-            })
-            .catch((error) => {
-              console.error(error);
-            });
+          
         }
       }, []);
 
@@ -70,7 +39,7 @@ import status from "../../assets/img/home/status.png";
   <div className="container">
     <div className="row">
     
-     <h1>UserDashboard</h1>
+     <h1>Saved Cards</h1>
      
       </div>
       </div>
@@ -110,42 +79,7 @@ import status from "../../assets/img/home/status.png";
   <div className="dashboard-third-section">
   <div className="container">
   <div className="row justify-content-around">
-  <div>
-      {loading ? (
-        // Show the loader while loading is true
-        <div id="loftloaderwrappernew-inner">
-          {/* Your loader content here */}
-        </div>
-      ) : (
-        // Once loading is false, display the API data
-        <table>
-          <thead>
-            <tr>
-              <th>Product Name</th>
-              <th>Order ID</th>
-              <th>Term</th>
-              <th>Renewal Date</th>
-              <th>ID</th>
-              <th>Payment Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {apiData.data.map((item, index) => (
-              <tr key={index}>
-                <td>{item.product_name}</td>
-                <td>{item.order_id}</td>
-                <td>{item.term}</td>
-                <td>{item.renewal_date}</td>
-                <td>{item.id}</td>
-                <td>{item.payment_status}</td>
-                <td>{item.button}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
+
 
   </div>
   </div>
@@ -157,5 +91,5 @@ import status from "../../assets/img/home/status.png";
   }
   
 
-export default UserDashboard;
+export default SavedCard;
 

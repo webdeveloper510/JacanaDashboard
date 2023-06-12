@@ -35,7 +35,7 @@ const DashboardHeader =() => {
                 <nav id="navbar" className="navbar">
                   <ul>
                   <li>
-                      <NavLink className="active" to="/user_dashboard">Dashboard</NavLink>
+                      <NavLink className="" to="/user_dashboard">Dashboard</NavLink>
                     </li>
                     <li>
                       <NavLink to="/userprofile"> Profile page</NavLink>
