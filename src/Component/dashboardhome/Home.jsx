@@ -1,65 +1,51 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+//import '../../shim.js';
+//import jwt from 'jsonwebtoken';
+import jwt_decode from 'jwt-decode';
+import crypto from 'crypto-js';
 import 'react-multi-carousel/lib/styles.css';
 
 function Home() {
-  const navigate = useNavigate();
-  const urlParams = new URLSearchParams(window.location.search);
-  //console.log('URL params:', urlParams.toString());
-  const userIdParam = urlParams.get('user_id');
- 
+  const CryptoJS = require('crypto-js');
+  const jwtDecode = require('jwt-decode');
 
+  // Secret key
+  const secretKey = 'dszlpys0ro345ci2ux8jxewp736zdxty';
+  
+  // Function to verify HMAC signature
+  const verifyHmacSignature = (token, secretKey) => {
+    const [encodedHeader, encodedPayload, signature] = token.split('.');
+    const encodedData = `${encodedHeader}.${encodedPayload}`;
+  
+    const calculatedSignature = CryptoJS.HmacSHA256(encodedData, secretKey).toString();
+    return calculatedSignature === signature;
+  };
+  
+  // Example usage
+  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IndlYm1hc3RlckBqYWNhbmF3YXJyYW50eS5jb20iLCJpZCI6MjExNiwicm9sZSI6WyJjdXN0b21lciJdLCJ1c2VyX3Rva2VuIjoiZGQ0NWU0ZTUxYzQ1YWM4MmRjMWQifQ.l3ucwla6KZq8GOAL2S5ruajmBegAN5EYzUcWSi_4FyY";
+  
+  // Decode the token
+  const decoded = jwtDecode.default(token);
+  const { email, role, user_token } = decoded;
+  const payload = JSON.stringify(decoded);
+  
+  const isSignatureValid = verifyHmacSignature(token, secretKey);
+  
+  console.log('Payload:', payload);
+  console.log('Is Valid:', isSignatureValid ? 'Yes' : 'No');
 
-  useEffect(() => {
-   
-
-    if (userIdParam) {
-      const url = `https://jacanawarranty.com/wp-json/gform/v2/user_authentication/?user_id=${userIdParam}`;
-      const token = 'Bearer xuE0sEGHV9UZ8mbpvgJkJXorO';
-
-      fetch(url, {
-        headers: {
-          Authorization: token,
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            window.location.href = 'https://www.jacanawarranty.com/';
-           throw new Error('Failed to fetch user ID');
-          }
-          return response.json();
-        })
-        .then((data) => {
-          const userRole= data.data.roles;
-        
-          if (data && data.valid && userRole === 'customer') {
-            window.location.href = 'https://www.jacanawarranty.com/'; 
-          } else {
-
-             // Save email and user_token in cookies
-            Cookies.set('email', data.data.email);
-            Cookies.set('roles', data.data.roles);
-            Cookies.set('user_token', data.data.user_token);
-        
-            const componentPath = '/user_dashboard'; // Set the desired component path
-            navigate(componentPath);
-            window.history.replaceState(null, null, componentPath);
-          }
-        })
-    } 
-    else {
-      // Redirect to https://www.jacanawarranty.com/ if user ID is not provided in the URL
-       window.location.href = 'https://www.jacanawarranty.com/';
-    }
-  }, [userIdParam, navigate]);
-
-
-  // Render the component with the fetched data
+  if (isSignatureValid) {
+    // Save payload data in session storage
+  sessionStorage.setItem('email', email);
+  sessionStorage.setItem('role', role);
+  sessionStorage.setItem('user_token', user_token);
+  
+    // Redirect to user_dashboard page
+    window.location.href = '/user_dashboard';
+  }
   return (
     <>
-
-<div id="loftloaderwrappernew"></div>
+     <div id="loftloaderwrappernew"></div>
     </>
   );
 }

@@ -9,59 +9,46 @@ import status from "../../assets/img/home/status.png";
 
 
     function UserDashboard() {
-      const [loading, setLoading] = useState(true);
-      const [apiData, setApiData] = useState({ data: [] });
       
-      useEffect(() => {
-        const email = Cookies.get('email');
-        const userToken = Cookies.get('user_token');
-        const roles = Cookies.get('roles');
-      
-        console.log('Email:', email);
-        console.log('User Token:', userToken);
-        console.log('Roles:', roles);
-      
-      if (!email || !userToken || !roles || email === 'undefined' || userToken === 'undefined' || roles === 'undefined') {
-          // Redirect to the homepage
-          setTimeout(() => {
-            window.location.href = 'https://www.jacanawarranty.com/';
-          }, 2000); // Delay of 3000 milliseconds (3 seconds)
-        } else {
-          const apiUrl = 'https://jacanawarranty.com/wp-json/gform/v2/user_dashboard';
-          const token = 'Bearer xuE0sEGHV9UZ8mbpvgJkJXorO';
-      
-          const queryParams = new URLSearchParams({
-            email: email,
-            user_token: userToken,
-            status: 'Active',
-          });
-      
-          const url = `${apiUrl}?${queryParams.toString()}`;
-      
-          fetch(url, {
-            method: 'GET',
-            headers: {
-              Authorization: token,
-            },
-          })
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error('Failed to fetch API data');
-              }
-              return response.json();
-            })
-            .then((data) => {
-              const responseData = data.data.data;
-              setApiData({ data: responseData });
-              setLoading(false); // Set loading to false once API data is fetched
-              console.log(responseData);
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-        }
-      }, []);
+      const email = sessionStorage.getItem('email');
+const userToken = sessionStorage.getItem('user_token');
 
+// Set the API URL
+const apiUrl = 'https://jacanawarranty.com/wp-json/react/v1/user_dashboard';
+
+// Set the parameters
+const params = {
+  email: email,
+  user_token: userToken,
+  status: 'Active', // Change to the desired status value or remove if not required
+  page: 1, // Change to the desired page number or remove if not required
+  page_size: 10, // Change to the desired page size or remove if not required
+};
+
+// Build the query string with the parameters
+const queryString = Object.keys(params)
+  .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+  .join('&');
+
+// Set the request headers
+const headers = {
+  Authorization: `Bearer dszlpys0ro345ci2ux8jxewp736zdxty`,
+};
+
+// Fetch the API
+fetch(`${apiUrl}?${queryString}`, {
+  method: 'GET',
+  headers: headers,
+})
+  .then(response => response.json())
+  .then(data => {
+    // Handle the API response data here
+    console.log(data);
+  })
+  .catch(error => {
+    // Handle any errors that occur during the API request
+    console.error(error);
+  });
 
       return(
           <>
@@ -110,42 +97,7 @@ import status from "../../assets/img/home/status.png";
   <div className="dashboard-third-section">
   <div className="container">
   <div className="row justify-content-around">
-  <div>
-      {loading ? (
-        // Show the loader while loading is true
-        <div id="loftloaderwrappernew-inner">
-          {/* Your loader content here */}
-        </div>
-      ) : (
-        // Once loading is false, display the API data
-        <table>
-          <thead>
-            <tr>
-              <th>Product Name</th>
-              <th>Order ID</th>
-              <th>Term</th>
-              <th>Renewal Date</th>
-              <th>ID</th>
-              <th>Payment Status</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {apiData.data.map((item, index) => (
-              <tr key={index}>
-                <td>{item.product_name}</td>
-                <td>{item.order_id}</td>
-                <td>{item.term}</td>
-                <td>{item.renewal_date}</td>
-                <td>{item.id}</td>
-                <td>{item.payment_status}</td>
-                <td>{item.button}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
+ 
 
   </div>
   </div>
