@@ -19,12 +19,14 @@
     "crypto-browserify": "^3.12.0",
     "crypto-js": "^4.1.1",
     "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-bootstrap-accordion": "^1.0.0",
     "react-bootstrap-button": "^1.0.3",
     "react-bootstrap-buttons": "^1.0.0",
+    "react-bootstrap-select": "^0.14.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.8.0",
@@ -37,6 +39,11 @@
     "stream": "^0.0.2",
     "styled-components": "^5.3.9",
     "web-vitals": "^2.1.4"
+  },
+  "resolve": {
+    "fallback": {
+      "crypto": "crypto-browserify"
+    }
   },
   "scripts": {
     "start": "react-scripts start",
