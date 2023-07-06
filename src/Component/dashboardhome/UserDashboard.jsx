@@ -203,7 +203,7 @@ import { Form } from 'react-bootstrap';
                 <td>{item.term}</td>
                 <td>{item.renewal_date}</td>
                 <td>{item.id}</td>
-                <td>{item.payment_status}</td>
+                <td>{item.payment_status}</td> 
                 <td>{item.button}</td>
               </tr>
             ))}
